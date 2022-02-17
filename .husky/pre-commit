@@ -1,4 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-ng test
+ng test --watch=false
+npx lint-staged
+npx pretty-quick --staged
