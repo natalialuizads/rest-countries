@@ -2,5 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 ng test --watch=false
-npx lint-staged
 npx pretty-quick --staged
