@@ -6,6 +6,7 @@ import {
 
 import { ApiService } from './api.service';
 import { environment } from '../../../environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('ApiService', () => {
   let service: ApiService;
@@ -56,6 +57,39 @@ describe('ApiService', () => {
   ));
 
   it(`Dado o ApiService
+      Quando o método getAllCountries retornar com erro
+      Então deve repassar o erro`, inject(
+    [HttpTestingController, ApiService],
+    (httpMock: HttpTestingController, apiService: ApiService) => {
+      const status = 500;
+      const statusText = 'Internal Server Error';
+      const errorEvent = new ErrorEvent('API error');
+
+      let actualError: HttpErrorResponse | undefined;
+
+      apiService.getAllCountries().subscribe({
+        next: () => fail('next handler must not be called'),
+        error: (error: HttpErrorResponse) => (actualError = error),
+        complete: () => fail('next handler must not be called'),
+      });
+
+      const mockRequest = httpMock.expectOne(`${environment}/all`);
+
+      mockRequest.error(errorEvent, { status, statusText });
+
+      httpMock.verify();
+
+      if (!actualError) {
+        throw new Error('Error needs to be defined');
+      }
+
+      expect(actualError.error).toBe(errorEvent);
+      expect(actualError.status).toBe(status);
+      expect(actualError.statusText).toBe(statusText);
+    }
+  ));
+
+  it(`Dado o ApiService
       Quando o método getCountryByName retornar com sucesso
       Então deve retornar o pais pesquisado`, inject(
     [HttpTestingController, ApiService],
@@ -86,6 +120,39 @@ describe('ApiService', () => {
       httpMock.verify();
 
       expect(requestResponse).toEqual(mockCountry);
+    }
+  ));
+
+  it(`Dado o ApiService
+      Quando o método getCountryByName retornar com erro
+      Então deve repassar o erro`, inject(
+    [HttpTestingController, ApiService],
+    (httpMock: HttpTestingController, apiService: ApiService) => {
+      const status = 500;
+      const statusText = 'Internal Server Error';
+      const errorEvent = new ErrorEvent('API error');
+
+      let actualError: HttpErrorResponse | undefined;
+
+      apiService.getCountryByName('espanha').subscribe({
+        next: () => fail('next handler must not be called'),
+        error: (error: HttpErrorResponse) => (actualError = error),
+        complete: () => fail('next handler must not be called'),
+      });
+
+      const mockRequest = httpMock.expectOne(`${environment}/name/espanha`);
+
+      mockRequest.error(errorEvent, { status, statusText });
+
+      httpMock.verify();
+
+      if (!actualError) {
+        throw new Error('Error needs to be defined');
+      }
+
+      expect(actualError.error).toBe(errorEvent);
+      expect(actualError.status).toBe(status);
+      expect(actualError.statusText).toBe(statusText);
     }
   ));
 });
