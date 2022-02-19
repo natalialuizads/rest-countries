@@ -1,4 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --backgroundElement: "hsl(0, 0%, 98%)";
+  --background: "hsl(0, 0%, 100%)";
+  --textOnSecondary: "hsl(0, 0%, 52%)";
+  --textOnPrimary: "hsl(200, 15%, 8%);";
+  --font-size-home: 16px;
+  --font-size-details: 14px;
+  --font-size-title: 18px;
+}
+
 body {
   font-family: "Nunito Sans", sans-serif;
+  background-color: var(--background);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1500px;
+  margin: 0 auto;
 }
