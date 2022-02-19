@@ -1,0 +1,29 @@
+.header {
+  background: var(--backgroundElement);
+  width: 100%;
+  padding: 1rem;
+
+  & .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    color: var(--textOnPrimary);
+    font-size: var(--font-size-title);
+  }
+
+  &__button {
+    display: inline-flex;
+    background-color: transparent;
+    gap: 0.5rem;
+    align-items: center;
+    border: none;
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+  }
+}
